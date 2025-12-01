@@ -1,4 +1,4 @@
-package org.chris.leetcode;
+package org.chris.leetcode.Collection;
 
 import org.chris.leetcode.dto.InorderTraversal_94_TestData;
 import org.chris.leetcode.dto.TreeNode;
