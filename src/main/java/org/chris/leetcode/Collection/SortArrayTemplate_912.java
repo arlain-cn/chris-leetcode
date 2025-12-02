@@ -3,7 +3,7 @@ package org.chris.leetcode.Collection;
 import java.util.Arrays;
 import java.util.Random;
 
-public class SortArrayTemplate {
+public class SortArrayTemplate_912 {
     /**
      * 1、选择排序 selectionSort: 选择排序是最简单朴素的排序算法，但是时间复杂度较高，且不是稳定排序。其他基础排序算法都是基于选择排序的优化。
      * 2、冒泡排序 bubbleSort: 冒泡算法是对选择排序 的一种优化，通过交换 nums[sortedIndex] 右侧的逆序对完成排序，是一种稳定排序算法。
@@ -18,24 +18,86 @@ public class SortArrayTemplate {
      * 10、基数排序 radixSort: 基数排序是计数排序算法的扩展，它的主要思路是对待排序元素的每一位依次进行计数排序。由于计数排序是稳定的，所以对每一位完成计数排序后，所有元素就完成了排序。
      */
     public static void main(String[] args) {
-        SortArrayTemplate sortArrayTemplate = new SortArrayTemplate();
+        SortArrayTemplate_912 sortArrayTemplate912 = new SortArrayTemplate_912();
         int[] nums = {64, 34, 25, 12, 22, 11, 90, 88, 76, 50, 42, 35, 17, 8, 99, 23, 67, 45, 78, 31, 56, 89, 14, 92, 37, 61, 28, 73, 49, 5, 81, 39, 72, 26, 63, 19, 94, 48, 77, 33, 68, 21, 55, 83, 16, 95, 41, 79, 29, 66, 38, 85, 13, 52, 87, 30, 69, 24, 59, 91, 46, 75, 20, 57, 84, 32, 65, 18, 97, 44, 71, 27, 58, 86, 15, 100, 43, 74, 36, 62, 93, 47, 70, 2, 53, 82, 9, 54, 80, 1, 98, 40, 60, 3, 51, 7, 96, 4, 6, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 50, 50, 50, 25, 25, 75, 75, 12, 12, 88, 88, 37, 37, 63, 63, 91, 91};
 //        sortArrayTemplate.optimizedBubbleSort(nums);
 //        System.out.println(Arrays.toString(nums));
-        System.out.println(Arrays.toString(sortArrayTemplate.quickSort(nums)));
+        System.out.println(Arrays.toString(sortArrayTemplate912.heapSort(nums)));
     }
 
     /**
      * 7、堆排序 heapSort: 堆排序是从二叉堆结构衍生出来的排序算法，复杂度为 O(NlogN)。堆排序主要分两步，第一步是在待排序数组上原地创建二叉堆（Heapify），然后进行原地排序（Sort）。
+     * 堆排序（Heap Sort）是一种基于堆数据结构的高效排序算法，通过构建最大堆（升序）或最小堆（降序）实现排序。其核心思想是利用堆的根节点始终为极值的特性，反复提取极值并调整堆结构，最终得到有序序列。以下是详细原理、Java实现及优化分析。
+     * <p>
+     * 最大堆：每个父节点的值 ≥ 子节点的值（根节点为最大值）。
+     * 最小堆：每个父节点的值 ≤ 子节点的值（根节点为最小值）。
+     * 堆是完全二叉树，可用数组高效存储（索引关系：父节点 i，左子节点 2i+1，右子节点 2i+2）
+     * <p>
+     * 2. 根节点编号为 0（常见于编程实现，如 C++、Java）
+     * · 节点总数为 n。
+     * · 最后一个非叶子节点的索引为 [n/2] - 1。
+     * · 推导：节点 i 的左孩子为 2i+1，右孩子为 2i+2。最后一个节点索引为 n-1，其父节点索引为 [(n-1-1)/2] = [(n-2)/2] = [n/2]- 1。
+     * <p>
+     * <p>
+     * 排序步骤：
+     * 构建最大堆：从最后一个非叶子节点（n/2 - 1）开始，自底向上调整子树为最大堆。
+     * 交换与调整：
+     * 交换堆顶（最大值）与数组末尾元素；
+     * 缩小堆范围（排除已排序元素）；
+     * 对堆顶元素执行下沉操作（Heapify），恢复最大堆性质。
+     * <p>
+     * <p>
+     * 重复交换与调整，直到堆仅剩一个元素。
      *
      * @param nums
      * @return
      */
     public int[] heapSort(int[] nums) {
-
-
+        int len = nums.length;
+        buildMaxHeap(nums, len);
+        for (int i = len - 1; i > 0; i--) {
+            swap(nums, i, 0);
+            len--;
+            //每次取位置0的排到堆顶
+            maxHeapify(nums, len, 0);
+        }
         return nums;
     }
+
+    public void buildMaxHeap(int[] nums, int len) {
+        //从最后一个非叶子节点（n/2 - 1）开始，自底向上调整子树为最大堆。
+        for (int i = len / 2 - 1; i >= 0; i--) {
+            maxHeapify(nums, len, i);
+        }
+    }
+
+    /**
+     * 堆调整（下沉操作）
+     *
+     * @param nums
+     * @param len
+     * @param i
+     */
+    private void maxHeapify(int[] nums, int len, int i) {
+        for (; i * 2 + 1 < len; ) {
+            int lson = i * 2 + 1;
+            int rson = i * 2 + 2;
+            int lagest = i;
+            if (lson < len && nums[lson] > nums[lagest]) {
+                lagest = lson;
+            }
+            if (rson < len && nums[rson] > nums[lagest]) {
+                lagest = rson;
+            }
+            if (lagest == i) {
+                break;
+            } else {
+                swap(nums, lagest, i);
+                i = lagest;
+            }
+        }
+    }
+
     /**
      * 6、快速排序 quickSort: 快速排序的核心思路需要结合二叉树的前序遍历 来理解：在二叉树遍历的前序位置将一个元素排好位置，然后递归地将剩下的元素排好位置。
      * 快速排序的核心思想是分治。它通过一趟排序将待排记录分隔成独立的两部分，使得其中一部分的所有数据都比另一部分的所有数据小，然后再分别对这两部分记录继续进行排序，以达到整个序列有序的目的。
@@ -209,7 +271,7 @@ public class SortArrayTemplate {
      * 插入排序是基于
      * 选择排序 的一种优化，将 nums[sortedIndex] 插入到左侧的有序数组中。对于有序度较高的数组，插入排序的效率比较高。
      * <p>
-     * {@link SortArrayTemplate#selectionSortMove(int[])}上面的算法思路是：在 nums[sortedIndex..] 中找到最小值，然后将其插入到 nums[sortedIndex] 的位置。
+     * {@link SortArrayTemplate_912#selectionSortMove(int[])}上面的算法思路是：在 nums[sortedIndex..] 中找到最小值，然后将其插入到 nums[sortedIndex] 的位置。
      * 那么我们能不能反过来想，在 nums[0..sortedIndex-1] 这个部分有序的数组中，找到 nums[sortedIndex] 应该插入的位置，然后进行插入呢？
      *
      * @param nums
