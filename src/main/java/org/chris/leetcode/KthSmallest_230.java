@@ -18,10 +18,10 @@ public class KthSmallest_230 {
     public static void main(String[] args) {
 //        TreeNode root = InorderTraversal_94_TestData.createBSTFromSortedArray(new int[]{5, 3, 6, 2, 4, 1});
 //        TreeNode root = InorderTraversal_94_TestData.createBSTFromSortedArray(new int[]{-10, -3, 0, 5, 9});
-        TreeNode root = InorderTraversal_94_TestData.createBSTFromSortedArray(new int[]{1, 2});
+        TreeNode root = InorderTraversal_94_TestData.createPredefinedBST2(new Integer[]{5, 3, 6, 2, 4, null, null, 1});
 
         KthSmallest_230 kthSmallest230 = new KthSmallest_230();
-        System.out.println(kthSmallest230.kthSmallest3(root, 2));
+        System.out.println(kthSmallest230.kthSmallest3(root, 3));
         kthSmallest230.kthSmallestFac(root, 3);
         System.out.println(kthSmallest230.ans);
     }
@@ -52,7 +52,6 @@ public class KthSmallest_230 {
         kthSmallestFac(root.left, k);
         if (++i == k) {
             ans = root.val;
-            ;
             return;
         }
         kthSmallestFac(root.right, k);
@@ -89,7 +88,12 @@ public class KthSmallest_230 {
             countNodeNum(root);
         }
 
-        // 统计以node为根结点的子树的结点数
+        /**
+         * 递归统计以node为根结点的子树的结点数
+         *
+         * @param node
+         * @return
+         */
         private int countNodeNum(TreeNode node) {
             if (node == null) {
                 return 0;
@@ -101,7 +105,12 @@ public class KthSmallest_230 {
         }
 
 
-        // 返回二叉搜索树中第k小的元素
+        /**
+         * 返回二叉搜索树中第k小的元素
+         *
+         * @param k
+         * @return
+         */
         public int kthSmallest(int k) {
             TreeNode node = root;
             while (node != null) {

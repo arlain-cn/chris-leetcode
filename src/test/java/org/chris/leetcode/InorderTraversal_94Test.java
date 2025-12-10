@@ -78,4 +78,30 @@ public class InorderTraversal_94Test {
         List<Integer> actual = solution.inorderTraversal(root);
         assertEquals(expected, actual, "复杂树的中序遍历结果应该是[4, 2, 7, 5, 1, 3, 8, 6, 9]");
     }
+
+    @Test
+    void testBSTFromSortedArray() {
+        int[] nums = {1, 2, 3, 4, 5, 6, 7};
+        TreeNode root = InorderTraversal_94_TestData.createBSTFromSortedArray(nums);
+        List<Integer> expected = Arrays.asList(1, 2, 3, 4, 5, 6, 7);
+        List<Integer> actual = solution.inorderTraversal(root);
+        assertEquals(expected, actual, "从有序数组创建的BST中序遍历结果应该是[1, 2, 3, 4, 5, 6, 7]");
+    }
+
+    @Test
+    void testBSTFromValues() {
+        int[] values = {4, 2, 6, 1, 3, 5, 7};
+        TreeNode root = InorderTraversal_94_TestData.   createBSTFromValues(values);
+        List<Integer> expected = Arrays.asList(1, 2, 3, 4, 5, 6, 7);
+        List<Integer> actual = solution.inorderTraversal(root);
+        assertEquals(expected, actual, "从值数组创建的BST中序遍历结果应该是[1, 2, 3, 4, 5, 6, 7]");
+    }
+
+    @Test
+    void testPredefinedBST() {
+        TreeNode root = InorderTraversal_94_TestData.createPredefinedBST();
+        List<Integer> expected = Arrays.asList(1, 2, 3, 4, 5, 6, 7);
+        List<Integer> actual = solution.inorderTraversal(root);
+        assertEquals(expected, actual, "预定义BST的中序遍历结果应该是[1, 2, 3, 4, 5, 6, 7]");
+    }
 }
