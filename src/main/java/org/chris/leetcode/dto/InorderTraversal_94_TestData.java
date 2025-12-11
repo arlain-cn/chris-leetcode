@@ -228,30 +228,30 @@ public class InorderTraversal_94_TestData {
      * @param nums
      * @return
      */
-    public static TreeNode createPredefinedBST2(Integer[] nums) {
+    public static TreeNode createStdPredefinedBST2(Integer[] nums) {
         TreeNode root = new TreeNode(nums[0]);
-        createPredefinedBSTFac2(root, nums, 0);
+        createStdPredefinedBSTFac2(root, nums, 0);
         return root;
     }
 
-    public static void createPredefinedBSTFac2(TreeNode root, Integer[] nums, int n) {
+    public static void createStdPredefinedBSTFac2(TreeNode root, Integer[] nums, int n) {
         if (2 * n >= nums.length) {
             return;
         }
         int lefti = 2 * n + 1;
         if (lefti < nums.length && nums[lefti] != null) {
             root.left = new TreeNode(nums[lefti]);
-            createPredefinedBSTFac2(root.left, nums, lefti);
+            createStdPredefinedBSTFac2(root.left, nums, lefti);
         }
         int righti = 2 * n + 2;
         if (righti < nums.length && nums[righti] != null) {
             root.right = new TreeNode(nums[righti]);
-            createPredefinedBSTFac2(root.right, nums, righti);
+            createStdPredefinedBSTFac2(root.right, nums, righti);
         }
     }
 
     public static void main(String[] args) {
-        TreeNode root = createPredefinedBST2(new Integer[]{5, 3, 6, 2, 4, null, null, 1});
+        TreeNode root = createStdPredefinedBST2(new Integer[]{5, 3, 6, 2, 4, null, null, 1});
         LevelOrder_100 levelOrder100 = new LevelOrder_100();
         List<List<Integer>> actual = levelOrder100.levelOrderFac(root);
         System.out.println(actual.toString());

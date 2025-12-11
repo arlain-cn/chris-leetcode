@@ -18,7 +18,7 @@ public class KthSmallest_230 {
     public static void main(String[] args) {
 //        TreeNode root = InorderTraversal_94_TestData.createBSTFromSortedArray(new int[]{5, 3, 6, 2, 4, 1});
 //        TreeNode root = InorderTraversal_94_TestData.createBSTFromSortedArray(new int[]{-10, -3, 0, 5, 9});
-        TreeNode root = InorderTraversal_94_TestData.createPredefinedBST2(new Integer[]{5, 3, 6, 2, 4, null, null, 1});
+        TreeNode root = InorderTraversal_94_TestData.createStdPredefinedBST2(new Integer[]{5, 3, 6, 2, 4, null, null, 1});
 
         KthSmallest_230 kthSmallest230 = new KthSmallest_230();
         System.out.println(kthSmallest230.kthSmallest3(root, 3));
