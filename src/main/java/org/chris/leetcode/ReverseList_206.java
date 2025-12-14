@@ -11,7 +11,7 @@ public class ReverseList_206 {
     public static void main(String[] args) {
         ReverseList_206 reverseList206 = new ReverseList_206();
         ListNode head = GetIntersectionNode_160_TestData.createNormalByArr(new int[]{1, 2, 3, 4, 5});
-        System.out.println(reverseList206.reverseList(head).toListString());
+        System.out.println(reverseList206.reverseList0(head).toListString());
     }
 
     /**
@@ -66,7 +66,7 @@ public class ReverseList_206 {
         }
         // newHead先指向最后一个节点，注意此时参数是倒数第二个节点
         // 这一步很精妙，每一次newHead都是指向空指针（链表为空）或保留在原链表中的最后一个节点（链表不空），作用就是返回新的头结点
-        ListNode newHead = reverseList(head.next);
+        ListNode newHead = reverseList0(head.next);
         // 最后一个节点指向倒数第二个节点
         head.next.next = head;
         // 倒数第二个节点的下一节点置空。此时倒数第三个节点仍指向倒数第二个节点，下一次递归中将倒数第二个节点下一节点指向倒数第三个节点，不断重复这一过程
