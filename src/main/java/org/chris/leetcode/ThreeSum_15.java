@@ -12,8 +12,8 @@ public class ThreeSum_15 {
      */
     public static void main(String[] args) {
         ThreeSum_15 threeSum15 = new ThreeSum_15();
-        System.out.println(threeSum15.threeSum(new int[]{1, 1, 1}));
-        System.out.println(threeSum15.threeSum(new int[]{-1, 0, 1, 2, -1, -4}));
+        System.out.println(threeSum15.threeSum3(new int[]{1, 1, 1}));
+        System.out.println(threeSum15.threeSum3(new int[]{-1, 0, 1, 2, -1, -4}));
     }
 
     /**
@@ -53,6 +53,43 @@ public class ThreeSum_15 {
                     while (right > left && nums[left] == nums[left - 1]) {
                         left++;
                     }
+                    while (right > left && nums[right] == nums[right + 1]) {
+                        right--;
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+
+    public List<List<Integer>> threeSum3(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
+        if (nums.length < 3) {
+            return ans;
+        }
+        Arrays.sort(nums);
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            int left = i + 1;
+            int right = nums.length - 1;
+            int two_sum = 0 - nums[i];
+            while (right > left) {
+                if (two_sum > nums[left] + nums[right]) {
+                    // 匹配不上也没必要防重 nums[left] == nums[left - 1]
+                    left++;
+                } else if (two_sum < nums[left] + nums[right]) {
+                    right--;
+                } else {
+                    ans.add(Arrays.asList(nums[i], nums[left], nums[right]));
+                    //防重，对于已排序的数组，右指针不变，左指针左移，两元素之和不变，证明左指针移动前后值相同，反之亦然
+                    left++;
+                    while (right > left && nums[left] == nums[left - 1]) {
+                        left++;
+                    }
+                    //防重，对于已排序的数组，左指针不变，右指针左移，两元素之和不变，证明右指针移动前后值相同，反之亦然
+                    right--;
                     while (right > left && nums[right] == nums[right + 1]) {
                         right--;
                     }
