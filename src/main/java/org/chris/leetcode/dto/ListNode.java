@@ -10,6 +10,10 @@ public class ListNode {
         next = null;
     }
 
+    public ListNode(int val, ListNode next) {
+        this.val = val;
+        this.next = next;
+    }
 
     public String toListString() {
         String ret = String.valueOf(val);
@@ -23,7 +27,6 @@ public class ListNode {
 
     @Override
     public String toString() {
-        return "ListNode{" +
-                "val=" + val;
+        return "ListNode{" + "val=" + val;
     }
 }
