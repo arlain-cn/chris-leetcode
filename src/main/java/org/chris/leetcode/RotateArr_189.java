@@ -79,7 +79,10 @@ public class RotateArr_189 {
      * @return
      */
     public int gcd(int a, int b) {
-        return b > 0 ? gcd(b, a % b) : a;
+        if (b == 0) {
+            return Math.abs(a);  // 处理负数
+        }
+        return gcd(b, a % b);
     }
 
     /**
