@@ -11,7 +11,7 @@ public class ReverseKGroup_25 {
     public static void main(String[] args) {
         ReverseKGroup_25 reverseKGroup25 = new ReverseKGroup_25();
         ListNode head = GetIntersectionNode_160_TestData.createNormalByArr(new int[]{1, 2, 3, 4, 5});
-        System.out.println(reverseKGroup25.reverseKGroup(head, 3).toListString());
+        System.out.println(reverseKGroup25.reverseKGroup(head, 1).toListString());
 
         //ListNode kHead = reverseKGroup25.reverseList(head, 2);
         //System.out.println(kHead.toListString());
@@ -19,7 +19,7 @@ public class ReverseKGroup_25 {
 //        System.out.println(myReverses[0] + "; " + myReverses[1]);
     }
 
-    public ListNode reverseKGroup(ListNode head, int k) {
+    public ListNode reverseKGroup1(ListNode head, int k) {
         ListNode hair = new ListNode(-1, head);
         ListNode prev = hair;
         ListNode blockHead = prev.next;
@@ -47,6 +47,33 @@ public class ReverseKGroup_25 {
             blockTail = null;
         }
         return hair.next;
+    }
+
+    /**
+     * 递归写法
+     *
+     * @param head
+     * @param k
+     * @return
+     */
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if (head == null) {
+            return head;
+        }
+        ListNode blockHead = head;
+        ListNode blockTail = head;
+        for (int i = 1; i < k; i++) {
+            blockTail = blockTail.next;
+            if (blockTail == null) {
+                return head;
+            }
+        }
+
+        ListNode[] myReverses = myReverse(blockHead, blockTail);
+        head = myReverses[0];
+        blockTail = myReverses[1];
+        blockTail.next = reverseKGroup(blockTail.next, k);
+        return head;
     }
 
     public ListNode[] myReverse(ListNode head, ListNode tail) {
