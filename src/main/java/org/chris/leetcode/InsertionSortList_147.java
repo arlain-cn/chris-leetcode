@@ -50,6 +50,7 @@ public class InsertionSortList_147 {
                     prev = prev.next;
                 }
                 //链接上 lastSorted 链表
+                //还有一个作用是清空lastSorted的尾巴，避免成环
                 lastSorted.next = curr.next;
                 curr.next = prev.next;
                 prev.next = curr;
