@@ -30,6 +30,9 @@ public class TreeFactorialPreMidPostTemplate {
         System.out.println(ans);
         ans.clear();
         System.out.println(template.levelOrder(root));
+
+        ans = template.preorderTraversal2(root);
+        System.out.println(ans);
     }
 
     /**
@@ -68,6 +71,40 @@ public class TreeFactorialPreMidPostTemplate {
             }
             root = stack.pop();
             root = root.right;
+        }
+        return res;
+    }
+
+    /**
+     * 二叉树的前序，迭代(非典型写法)
+     * 前序遍历，由于将节点展开之后会破坏二叉树的结构而丢失子节点的信息，因此前序遍历和展开为单链表分成了两步。能不能在不丢失子节点的信息的情况下，将前序遍历和展开为单链表同时进行？
+     * <p>
+     * 之所以会在破坏二叉树的结构之后丢失子节点的信息，是因为在对左子树进行遍历时，没有存储右子节点的信息，在遍历完左子树之后才获得右子节点的信息。只要对前序遍历进行修改，在遍历左子树之前就获得左右子节点的信息，并存入栈内，子节点的信息就不会丢失，就可以将前序遍历和展开为单链表同时进行。
+     *
+     * @param root
+     * @param root
+     */
+    public List<Integer> preorderTraversal2(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+
+        Deque<TreeNode> stack = new LinkedList<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            res.add(node.val);
+            //先放右节点，后弹出
+            TreeNode right = node.right;
+            if (right != null) {
+                stack.push(right);
+            }
+            //后放右节点，先弹出
+            TreeNode left = node.left;
+            if (left != null) {
+                stack.push(left);
+            }
         }
         return res;
     }
