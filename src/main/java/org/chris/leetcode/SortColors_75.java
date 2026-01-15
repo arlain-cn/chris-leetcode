@@ -5,6 +5,8 @@ import java.util.Arrays;
 public class SortColors_75 {
 
     /**
+     *
+     * 75. 颜色分类
      * 示例 1：
      * <p>
      * 输入：nums = [2,0,2,1,1,0]
@@ -20,19 +22,70 @@ public class SortColors_75 {
 
         SortColors_75 sortColors75 = new SortColors_75();
         int[] nums = new int[]{2, 0, 2, 1, 1, 0};
-        sortColors75.sortColors2(nums);
+        sortColors75.sortColors(nums);
         System.out.println(Arrays.toString(nums));
         nums = new int[]{2, 0, 1};
-        sortColors75.sortColors2(nums);
+        sortColors75.sortColors(nums);
         System.out.println(Arrays.toString(nums));
 
-        nums = new int[]{1, 0};
-        sortColors75.sortColors2(nums);
+        nums = new int[]{2, 1, 2};
+        sortColors75.sortColors(nums);
         System.out.println(Arrays.toString(nums));
     }
 
+    public void sortColors(int[] nums) {
+        int n = nums.length;
+        int ptr0 = 0, ptr2 = n - 1;
+        for (int i = 0; i <= ptr2; i++) {
+            while (i <= ptr2 && nums[i] == 2) {
+                int tmp = nums[ptr2];
+                nums[ptr2] = nums[i];
+                nums[i] = tmp;
+                ptr2--;
+            }
+            if (nums[i] == 0) {
+                int tmp = nums[ptr0];
+                nums[ptr0] = nums[i];
+                nums[i] = tmp;
+                ptr0++;
+            }
+        }
+    }
 
-    public void sortColors2(int[] nums) {
+
+    public void sortColors_doublePtr(int[] nums) {
+        int n = nums.length;
+        int ptr0 = 0, ptr1 = 0;
+        for (int i = 0; i < n; i++) {
+            if (nums[i] == 0) {
+                if (ptr1 == ptr0) {
+                    int tmp = nums[ptr0];
+                    nums[ptr0] = nums[i];
+                    nums[i] = tmp;
+                } else if (ptr1 > ptr0) {
+                    //需要考虑指针1跑在前头的情况
+                    //先跟1交换位置
+                    int tmp = nums[ptr1];
+                    nums[ptr1] = nums[i];
+                    nums[i] = tmp;
+                    //再跟0交换
+                    tmp = nums[ptr1];
+                    nums[ptr1] = nums[ptr0];
+                    nums[ptr0] = tmp;
+                }
+                ptr0++;
+                ptr1++;
+            } else if (nums[i] == 1) {
+                int tmp = nums[ptr1];
+                nums[ptr1] = nums[i];
+                nums[i] = tmp;
+                ptr1++;
+            }
+        }
+    }
+
+
+    public void sortColors0(int[] nums) {
         int n = nums.length;
         int ptr0 = 0, ptr1 = 0;
         for (int i = 0; i < n; i++) {
@@ -80,13 +133,29 @@ public class SortColors_75 {
      * <p>
      * 在第二次遍历中，我们从「头部」开始，从左向右遍历整个数组，如果找到了 1，那么就需要将 1 与「头部」位置的元素进行交换，并将「头部」向后扩充一个位置。在遍历结束之后，所有的 1 都被交换到「头部」的范围，并且都在 0 之后，此时 2 只出现在「头部」之外的位置，因此排序完成。
      * <p>
-     * 作者：力扣官方题解
-     * 链接：https://leetcode.cn/problems/sort-colors/solutions/437968/yan-se-fen-lei-by-leetcode-solution/
-     * 来源：力扣（LeetCode）
-     * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
      */
+    public void sortColors_singlePtr(int[] nums) {
+        int n = nums.length;
+        int ptr = 0;
+        for (int i = 0; i < n; i++) {
+            if (nums[i] == 0) {
+                int tmp = nums[ptr];
+                nums[ptr] = nums[i];
+                nums[i] = tmp;
+                ptr++;
+            }
+        }
+        for (int i = ptr; i < n; i++) {
+            if (nums[i] == 1) {
+                int tmp = nums[ptr];
+                nums[ptr] = nums[i];
+                nums[i] = tmp;
+                ptr++;
+            }
+        }
+    }
 
-    public void sortColors(int[] nums) {
+    public void sortColors_singlePtr0(int[] nums) {
         int n = nums.length;
         int ptr = 0;
         for (int i = 0; i < n; i++) {
