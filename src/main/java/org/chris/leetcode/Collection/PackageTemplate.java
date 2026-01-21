@@ -451,4 +451,74 @@ public class PackageTemplate {
         }
         return dp[W];
     }
+
+
+    /**
+     * 混合背包问题
+     * 物品分为三类：
+     * 1. 多重背包 (count > 0)：有 count 件
+     * 2. 0-1 背包 (count == -1)：只有 1 件
+     * 3. 完全背包 (count == 0)：有无限件
+     *
+     * @param weight int[]，每件物品的重量
+     * @param value  int[]，每件物品的价值
+     * @param count  int[]，每件物品的数量（>0:多重, -1:0-1, 0:完全）
+     * @param W      int，背包最大承重
+     * @return int，最大可获得价值
+     */
+    public int mixedPackMethod1(int[] weight, int[] value, int[] count, int W) {
+        List<Integer> weightNew = new ArrayList<>();
+        List<Integer> valueNew = new ArrayList<>();
+        List<Integer> countNew = new ArrayList<>(); // 1: 0-1背包, 0: 完全背包
+        // 预处理物品
+        for (int i = 0; i < weight.length; i++) {
+            int cnt = count[i];
+            if (cnt > 0) {
+                // 多重背包问题，二进制分解转为 0-1 背包
+                int k = 1;
+                while (k <= cnt) {
+                    cnt -= k;
+                    weightNew.add(weight[i] * k);
+                    valueNew.add(value[i] * k);
+                    countNew.add(1); // 标记为 0-1 背包
+                    k *= 2;
+                }
+                if (cnt > 0) {
+                    weightNew.add(weight[i] * cnt);
+                    valueNew.add(value[i] * cnt);
+                    countNew.add(1); // 标记为 0-1 背包
+                }
+            } else if (cnt == -1) {
+                // 0-1 背包问题，直接添加
+                weightNew.add(weight[i]);
+                valueNew.add(value[i]);
+                countNew.add(1); // 标记为 0-1 背包
+            } else {
+                // 完全背包问题 (cnt == 0)，直接添加
+                weightNew.add(weight[i]);
+                valueNew.add(value[i]);
+                countNew.add(0); // 标记为完全背包
+            }
+        }
+        int[] dp = new int[W + 1];
+        int size = weightNew.size();
+        // 枚举前 i 种物品
+        for (int i = 0; i < size; i++) {
+            int wVal = weightNew.get(i);
+            int vVal = valueNew.get(i);
+            int type = countNew.get(i);
+            if (type == 1) {
+                // 0-1 背包问题：逆序枚举背包装载重量
+                for (int w = W; w >= wVal; w--) {
+                    dp[w] = Math.max(dp[w], dp[w - wVal] + vVal);
+                }
+            } else {
+                // 完全背包问题：正序枚举背包装载重量
+                for (int w = wVal; w <= W; w++) {
+                    dp[w] = Math.max(dp[w], dp[w - wVal] + vVal);
+                }
+            }
+        }
+        return dp[W];
+    }
 }
