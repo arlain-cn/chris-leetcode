@@ -1,5 +1,8 @@
 package org.chris.leetcode.Collection;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PackageTemplate {
 
     /**
@@ -24,9 +27,9 @@ public class PackageTemplate {
      * >综上，状态转移方程为：
      * <p>
      * - dp[i][w]=
-     * 1. dp[i−1][w], w<weight[i−1]时
-     * 2. max{dp[i−1][w], dp[i−1][w−weight[i−1]]+value[i−1]，w≥weight[i−1]时
-     * - **注意：对 i,i-1的使用有些混乱，将前 i 件物品在DP里用dp[i]表示，但是在weight[]、value[]里，第i个元素因为下标从0开始都用weight[i-1]、value[i-1]表示**
+     * ----1. dp[i−1][w], w<weight[i−1]时
+     * ----2. max{dp[i−1][w], dp[i−1][w−weight[i−1]]+value[i−1]，w≥weight[i−1]时
+     * ---- **注意：对 i,i-1的使用有些混乱，将前 i 件物品在DP里用dp[i]表示，但是在weight[]、value[]里，第i个元素因为下标从0开始都用weight[i-1]、value[i-1]表示**
      * 4. 初始条件
      * 当背包容量为 0 时，无论有多少物品，最大价值为 0，即 dp[i][0]=0，0≤i≤size。
      * 当没有物品时，无论背包容量多少，最大价值为 0，即 dp[0][w]=0，0≤w≤W。
@@ -89,13 +92,11 @@ public class PackageTemplate {
      * <p>
      * 3. 状态转移方程
      * 状态转移如下：
-     * dp[w]=
-     * - dp[w],        w<weight[i−1]
-     * - max{dp[w], dp[w−weight[i−1]]+value[i−1]},     w≥weight[i−1]
+     * ----dp[w]=
+     * ----- dp[w],        w<weight[i−1]
+     * ----- max{dp[w], dp[w−weight[i−1]]+value[i−1]},     w≥weight[i−1]
      * 在处理第 i 件物品时，dp[w] 只依赖于上一阶段（即第 i−1 件物品处理完后）的 dp[w] 和 dp[w−weight[i−1]]。因此，为了避免状态被提前覆盖，必须对 w 采用从大到小（即从 W 到 0）的逆序遍历。这样可以确保每次转移用到的 dp[w−weight[i−1]] 仍然是上一阶段的值。（因为w每次是用减的）
-     * <p>
      * 如果采用从小到大（正序）遍历，则 dp[w−weight[i−1]] 可能已经被本轮更新，导致状态转移错误。
-     * <p>
      * 实际上，当 w<weight[i−1] 时，当前物品无法放入背包，dp[w] 保持不变，无需更新。因此逆序遍历时只需从 W 遍历到 weight[i−1]。
      * <p>
      * 4. 初始条件
@@ -120,7 +121,7 @@ public class PackageTemplate {
 
         // 遍历每一件物品
         for (int i = 0; i < size; i++) {
-            // 必须逆序遍历容量，防止状态被提前覆盖
+            //TODO 必须逆序遍历容量，防止状态被提前覆盖
             for (int w = W; w >= weight[i]; w--) {
                 // 状态转移：不选第 i 件物品 or 选第 i 件物品
                 // dp[w] = max(不选, 选)
@@ -150,14 +151,13 @@ public class PackageTemplate {
      * 3. 状态转移方程
      * 由于每种物品可以选取任意多次，dp[i][w] 可以通过枚举第 i−1 种物品的选取数量 k 得到：
      * <p>
-     * 选 0 件第 i−1 种物品：dp[i−1][w]
-     * 选 1 件第 i−1 种物品：dp[i−1][w−weight[i−1]]+value[i−1]
-     * 选 2 件第 i−1 种物品：dp[i−1][w−2×weight[i−1]]+2×value[i−1]
-     * ...
-     * 选 k 件第 i−1 种物品：dp[i−1][w−k×weight[i−1]]+k×value[i−1]
-     * 其中 0≤k≤w/weight[i−1]。
-     * <p>
-     * 因此，状态转移方程为：dp[i][w]= max{dp[i−1][w−k×weight[i−1]]+k×value[i−1]},     0≤k≤w/weight[i−1]
+     * ----选 0 件第 i−1 种物品：dp[i−1][w]
+     * ----选 1 件第 i−1 种物品：dp[i−1][w−weight[i−1]]+value[i−1]
+     * ----选 2 件第 i−1 种物品：dp[i−1][w−2×weight[i−1]]+2×value[i−1]
+     * ----...
+     * ----选 k 件第 i−1 种物品：dp[i−1][w−k×weight[i−1]]+k×value[i−1]
+     * ----其中 0≤k≤w/weight[i−1]。
+     * ----因此，状态转移方程为：dp[i][w]= max{dp[i−1][w−k×weight[i−1]]+k×value[i−1]},     0≤k≤w/weight[i−1]
      * <p>
      * 4. 初始条件
      * 对所有 0≤i≤size，dp[i][0]=0，即背包容量为 0 时最大价值为 0。
@@ -192,11 +192,10 @@ public class PackageTemplate {
     }
 
 
-
     /**
      * 思路 2：动态规划 + 时间复杂度优化（去除 k 循环）
      * 完全背包问题 - 时间复杂度优化解法 (O(NW))
-     *
+     * <p>
      * 思路 2：动态规划 + 状态转移方程优化
      * 1. 阶段划分
      * 按照物品种类的序号、当前背包的载重上限进行阶段划分。
@@ -205,18 +204,19 @@ public class PackageTemplate {
      * 状态 dp[i][w] 是一个二维数组，其中第一维代表「当前正在考虑的物品种类」，第二维表示「当前背包的载重上限」，二维数组值表示「可以获得的最大价值」。
      * 3. 状态转移方程
      * dp[i][w]=
-     *     1、dp[i−1][w]，     w<weight[i−1]
-     *     2、max{dp[i−1][w],dp[i][w−weight[i−1]]+value[i−1]}，      w≥weight[i−1]
+     * ----1、dp[i−1][w]，     w<weight[i−1]
+     * ----2、max{dp[i−1][w],dp[i][w−weight[i−1]]+value[i−1]}，      w≥weight[i−1]
      * 4. 初始条件
      * 如果背包载重上限为 0，则无论选取什么物品，可以获得的最大价值一定是 0，即 dp[i][0]=0,0≤i≤size。
      * 无论背包载重上限是多少，前 0 种物品所能获得的最大价值一定为 0，即 dp[0][w]=0,0≤w≤W。
      * 5. 最终结果
      * 根据我们之前定义的状态，dp[i][w] 表示为：前 i 种物品放入一个最多能装重量为 w 的背包中，可以获得的最大价值。则最终结果为 dp[size][W]，其中 size 为物品的种类数，W 为背包的载重上限。
-     *
+     * <p>
      * 利用推导公式：dp[i][w] = max(dp[i-1][w], dp[i][w-weight] + value)
+     *
      * @param weight int[]，每件物品的重量
-     * @param value int[]，每件物品的价值
-     * @param W int，背包最大承重
+     * @param value  int[]，每件物品的价值
+     * @param W      int，背包最大承重
      * @return int，最大可获得价值
      */
     public int completePackMethod2(int[] weight, int[] value, int W) {
@@ -246,19 +246,18 @@ public class PackageTemplate {
     }
 
 
-    //
     /**
      * 思路 3：动态规划 + 滚动数组优化
      * 完全背包问题 - 空间复杂度优化解法
-     *
+     * <p>
      * 1. 阶段划分
      * 按照当前背包的载重上限进行阶段划分。
      * 2. 定义状态
      * 定义状态 dp[w] 表示为：将物品装入最多能装重量为 w 的背包中，可以获得的最大价值。
      * 3. 状态转移方程
-     * dp[w]=
-     *     1、dp[w]，      w<weight[i−1]
-     *     2、max{dp[w],dp[w−weight[i−1]]+value[i−1]}，        w≥weight[i−1]
+     * ---- dp[w]=
+     * ---- 1、dp[w]，      w<weight[i−1]
+     * ---- 2、max{dp[w],dp[w−weight[i−1]]+value[i−1]}，        w≥weight[i−1]
      * 注意：这里的 dp[w−weight[i−1]] 是第 i 轮计算之后的「第 i 阶段的状态值」。因为在计算dp[w] 时，我们需要用到第 i 轮计算之后的 dp[w−weight[i−1]]，所以我们需要按照「从 0∼W 正序递推的方式」递推 dp[w]，这样才能得到正确的结果。
      * 因为 w<weight[i−1] 时，dp[w] 只能取上一阶段的 dp[w]，其值相当于没有变化，这部分可以不做处理。所以我们在正序递推 dp[w] 时，只需从 weight[i−1] 开始遍历即可。
      * 4. 初始条件
@@ -267,8 +266,8 @@ public class PackageTemplate {
      * 根据我们之前定义的状态，dp[w] 表示为：将物品装入最多能装重量为 w 的背包中，可以获得的最大价值。则最终结果为 dp[W]，其中 W 为背包的载重上限。
      *
      * @param weight int[]，每件物品的重量
-     * @param value int[]，每件物品的价值
-     * @param W int，背包最大承重
+     * @param value  int[]，每件物品的价值
+     * @param W      int，背包最大承重
      * @return int，背包可获得的最大价值
      */
     public int completePackMethod3(int[] weight, int[] value, int W) {
@@ -278,7 +277,7 @@ public class PackageTemplate {
 
         // 枚举前 i 种物品
         for (int i = 1; i <= size; i++) {
-            // 正序枚举背包装载重量
+            // TODO 正序枚举背包装载重量
             // 注意：这里是从 weight[i-1] 开始，因为小于 weight[i-1] 的容量装不下该物品，dp 值保持不变
             for (int w = weight[i - 1]; w <= W; w++) {
                 // dp[w] 取「前 i - 1 种物品装入载重为 w 的背包中的最大价值」
@@ -289,6 +288,167 @@ public class PackageTemplate {
             }
         }
 
+        return dp[W];
+    }
+
+
+    /**
+     * 多重背包问题 - 二维动态规划解法
+     * 多重背包问题的基本思路
+     * 我们可以参考「0-1 背包问题」的状态定义和基本思路，对于容量为 w 的背包，最多可以装 `min{count[i−1], w/weight[i−1]}` 件第 i−1 件物品。那么我们可以多加一层循环，枚举第 i−1 件物品可以选择的件数`（0∼min{count[i−1], w/weight[i−1]}）`，从而将「完全背包问题」转换为「0-1 背包问题」。
+     * <p>
+     * 思路 1：动态规划 + 二维基本思路
+     * 1. 阶段划分
+     * 按照物品种类的序号、当前背包的载重上限进行阶段划分。
+     * 2. 定义状态
+     * 定义状态 `dp[i][w]` 表示为：前 i 种物品放入一个最多能装重量为 w 的背包中，可以获得的最大价值。
+     * 状态 `dp[i][w]` 是一个二维数组，其中第一维代表「当前正在考虑的物品种类」，第二维表示「当前背包的载重上限」，二维数组值表示「可以获得的最大价值」。
+     * 3. 状态转移方程
+     * ---- `dp[i][w] = max{dp[i−1][w − k * weight[i−1]] + k * value[i−1]},        0≤k≤min{count[i−1], w/weight[i−1]}。`
+     * 4. 初始条件
+     * 如果背包载重上限为 0，则无论选取什么物品，可以获得的最大价值一定是 0，即 `dp[i][0]=0,0≤i≤size`。
+     * 无论背包载重上限是多少，前 0 种物品所能获得的最大价值一定为 0，即 `dp[0][w]=0,0≤w≤W`。
+     * 5. 最终结果
+     * 根据我们之前定义的状态，dp[i][w] 表示为：前 i 种物品放入一个最多能装重量为 w 的背包中，可以获得的最大价值。则最终结果为 dp[size][W]，其中 size 为物品的种类数，W 为背包的载重上限。
+     * <p>
+     * 时间复杂度：O(n×W×C)，其中 n 为物品种类数量，W 为背包的载重上限，C 是物品的数量数组长度。因为 n×C=∑count[i]，所以时间复杂度也可以写成 O(W×∑count[i])。
+     * 空间复杂度：O(n×W)。
+     *
+     * @param weight int[]，每件物品的重量
+     * @param value  int[]，每件物品的价值
+     * @param count  int[]，每件物品的数量
+     * @param W      int，背包最大承重
+     * @return int，最大可获得价值
+     */
+    public int multiplePackMethod1(int[] weight, int[] value, int[] count, int W) {
+        int size = weight.length;
+        // dp[i][w] 表示前 i 件物品，容量不超过 W 时的最大价值
+        int[][] dp = new int[size + 1][W + 1];
+
+        // 枚举前 i 种物品
+        for (int i = 1; i <= size; i++) {
+            // 枚举背包装载重量
+            for (int w = 0; w <= W; w++) {
+                // 枚举第 i - 1 种物品能取个数
+                // 个数限制：不能超过物品总数 count[i-1]，且总重量不能超过背包当前容量 w
+                for (int k = 0; k <= count[i - 1] && k * weight[i - 1] <= w; k++) {
+                    // dp[i][w] 取所有 dp[i - 1][w - k * weight[i - 1]] + k * value[i - 1] 中最大值
+                    dp[i][w] = Math.max(dp[i][w], dp[i - 1][w - k * weight[i - 1]] + k * value[i - 1]);
+                }
+            }
+        }
+        return dp[size][W];
+    }
+
+    /**
+     * 多重背包问题 - 思路 2：动态规划 + 滚动数组优化
+     * 多重背包问题的滚动数组优化
+     * 在「完全背包问题」中，我们通过优化「状态转移方程」的方式，成功去除了对物品件数 k 的依赖，从而将时间复杂度下降了一个维度。
+     *
+     * 而在「多重背包问题」中，我们在递推 dp[i][w] 时，是无法从 dp[i][w−weight[i−1]] 状态得知目前究竟已经使用了多个件第 i−1 种物品，也就无法判断第 i−1 种物品是否还有剩余数量可选。**这就导致了我们无法通过优化「状态转移方程」的方式将「多重背包问题」的时间复杂度降低。但是我们可以参考「完全背包问题」+「滚动数组优化」的方式，将算法的空间复杂度下降一个维度。**
+     *
+     * 思路 2：动态规划 + 滚动数组优化
+     * 1. 阶段划分
+     * 按照当前背包的载重上限进行阶段划分。
+     * 2. 定义状态
+     * 定义状态 dp[w] 表示为：将物品装入最多能装重量为 w 的背包中，可以获得的最大价值。
+     * 3. 状态转移方程
+     * ---- `dp[w] = max{dp[w − k * weight[i−1]] + k * value[i−1]},      0≤k≤min{count[i−1], w/weight[i−1] }`
+     * 4. 初始条件
+     * 无论背包载重上限为多少，只要不选择物品，可以获得的最大价值一定是 0，即 dp[w]=0,0≤w≤W。
+     * 5. 最终结果
+     * 根据我们之前定义的状态，dp[w] 表示为：将物品装入最多能装重量为 w 的背包中，可以获得的最大价值。则最终结果为 dp[W]，其中 W 为背包的载重上限。
+     *
+     * 时间复杂度：O(n×W×C)，其中 n 为物品种类数量，W 为背包的载重上限，C 是物品的数量数组长度。因为 n×C=∑count[i]，所以时间复杂度也可以写成 O(W×∑count[i])。
+     * 空间复杂度：O(W)。
+     *
+     * @param weight int[]，每件物品的重量
+     * @param value int[]，每件物品的价值
+     * @param count int[]，每件物品的数量
+     * @param W int，背包最大承重
+     * @return int，最大可获得价值
+     */
+    public int multiplePackMethod2(int[] weight, int[] value, int[] count, int W) {
+        int size = weight.length;
+        // dp[w] 表示容量为 w 时背包可获得的最大价值
+        int[] dp = new int[W + 1];
+
+        // 枚举前 i 种物品
+        for (int i = 1; i <= size; i++) {
+            // TODO 逆序枚举背包装载重量（避免状态值错误）
+            for (int w = W; w >= weight[i - 1]; w--) {
+                // 枚举第 i - 1 种物品能取个数
+                // 注意：由于我们是逆序遍历 w，dp[w] 的初始值其实就是 dp[i-1][w]
+                // 每次比较 dp[w - k*weight] + k*value 时，由于 w - k*weight < w，
+                // 这些位置在当前 i 循环中尚未被更新，所以它们的值仍然是 dp[i-1][...]
+                // 这保证了我们使用的是上一轮的状态，符合 0-1 背包/多重背包的逻辑
+                for (int k = 1; k <= count[i - 1] && k * weight[i - 1] <= w; k++) {
+                    dp[w] = Math.max(dp[w], dp[w - k * weight[i - 1]] + k * value[i - 1]);
+                }
+            }
+        }
+
+        return dp[W];
+    }
+
+
+    // 思路 3：动态规划 + 二进制优化
+    /**
+     * 多重背包问题 - 二进制优化解法
+     * 将多重背包分解为 0-1 背包
+     * 1. 阶段划分
+     * 按照当前背包的载重上限进行阶段划分。
+     * 2. 定义状态
+     * 定义状态 dp[w] 表示为：将物品装入最多能装重量为 w 的背包中，可以获得的最大价值。
+     * 3. 状态转移方程
+     * dp[w]=max{dp[w−weightnew[i−1]]+valuenew[i−1]}
+     * 4. 初始条件
+     * 无论背包载重上限为多少，只要不选择物品，可以获得的最大价值一定是 0，即 dp[w]=0,0≤w≤W。
+     * 5. 最终结果
+     * 根据我们之前定义的状态，dp[w] 表示为：将物品装入最多能装重量为 w 的背包中，可以获得的最大价值。则最终结果为 dp[W]，其中 W 为背包的载重上限。
+     *
+     * 时间复杂度：O(W×∑log2count[i])，其中 W 为背包的载重上限，count[i] 是第 i 种物品的数量。
+     * 空间复杂度：O(W)。
+     *
+     * @param weight int[]，每件物品的重量
+     * @param value int[]，每件物品的价值
+     * @param count int[]，每件物品的数量
+     * @param W int，背包最大承重
+     * @return int，最大可获得价值
+     */
+    public int multiplePackMethod3(int[] weight, int[] value, int[] count, int W) {
+        List<Integer> weightNew = new ArrayList<>();
+        List<Integer> valueNew = new ArrayList<>();
+        // 二进制分解
+        for (int i = 0; i < weight.length; i++) {
+            int cnt = count[i];
+            int k = 1;
+            // 将 cnt 分解为 1, 2, 4, ... 2^n, remainder
+            // 例如 cnt = 13, 分解为 1, 2, 4, 6 (1+2+4=7, 13-7=6)
+            while (k <= cnt) {
+                cnt -= k;
+                weightNew.add(weight[i] * k);
+                valueNew.add(value[i] * k);
+                k *= 2;
+            }
+            if (cnt > 0) {
+                weightNew.add(weight[i] * cnt);
+                valueNew.add(value[i] * cnt);
+            }
+        }
+        // 转化为 0-1 背包问题
+        // dp[w] 表示容量为 w 时背包可获得的最大价值
+        int[] dp = new int[W + 1];
+        int size = weightNew.size();
+        // 枚举前 i 种物品（这里的物品是分解后的新物品）
+        for (int i = 0; i < size; i++) {
+            int wVal = weightNew.get(i);
+            int vVal = valueNew.get(i);
+            // 逆序枚举背包装载重量（0-1 背包滚动数组优化）
+            for (int w = W; w >= wVal; w--) {
+                dp[w] = Math.max(dp[w], dp[w - wVal] + vVal);
+            }
+        }
         return dp[W];
     }
 }
