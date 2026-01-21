@@ -1,8 +1,8 @@
-# Chris LeetCode Solutions
+# Chris 的 LeetCode 解题集
 
-This repository contains my solutions to various LeetCode problems. Each solution is implemented in Java and organized by problem number.
+这个仓库包含了我对各种 LeetCode 问题的解答。每种解法都使用 Java 实现，并按问题类型进行组织，以便更好地学习和参考。
 
-## Project Structure
+## 项目结构
 
 ```
 src/
@@ -11,123 +11,128 @@ src/
         └── org/
             └── chris/
                 └── leetcode/
-                    ├── dto/                 # Data structure definitions
-                    ├── Collection/          # Template solutions for common patterns
-                    └── individual problem files (e.g., TwoSum_1.java)
+                    ├── array/                 # 数组问题
+                    ├── string/                # 字符串问题
+                    ├── tree/                  # 树问题
+                    ├── linkedlist/            # 链表问题
+                    ├── dp/                    # 动态规划问题
+                    ├── graph/                 # 图问题
+                    ├── slidingwindow/         # 滑动窗口问题
+                    ├── sort_search/           # 排序和搜索问题
+                    ├── math_bit/              # 数学和位运算问题
+                    ├── greedy/                # 贪心算法问题
+                    ├── design/                # 设计问题
+                    ├── hashtable/             # 哈希表问题
+                    ├── backtrack/             # 回溯问题
+                    ├── dto/                   # 数据结构定义
+                    └── Collection/            # 常见模式的模板解决方案
 ```
 
-## About
+## 问题分类
 
-This project is a collection of LeetCode problem solutions implemented in Java. Each file corresponds to a specific problem and includes:
-- Problem statement as comments
-- Multiple solution approaches when applicable
-- Time and space complexity analysis
-- Detailed comments explaining the algorithm
+### 数组 (`org.chris.leetcode.array`)
+- SortColors_75 (颜色分类)
+- MergeIntervals_56 (合并区间)
+- MaxArea_11 (盛最多水的容器)
+- ThreeSum_15 (三数之和)
+- TwoSum_1 (两数之和)
+- ProductExceptSelf_238 (除自身以外数组的乘积)
+- RotatePic_48 (旋转图像)
+- 等更多...
 
-## Implemented Problems
+### 字符串 (`org.chris.leetcode.string`)
+- LengthOfLongestSubstring_3 (无重复字符的最长子串)
+- IsValid_20 (有效的括号)
+- IsPalindrome_234 (回文链表)
+- FindAnagrams_438 (找到字符串中所有字母异位词)
+- 等更多...
 
-### Array & String
-- [1. 两数之和 (Two Sum)](src/main/java/org/chris/leetcode/TwoSum_1.java)
-- [3. 无重复字符的最长子串 (Longest Substring Without Repeating Characters)](src/main/java/org/chris/leetcode/LengthOfLongestSubstring_3.java)
-- [11. 盛最多水的容器 (Container With Most Water)](src/main/java/org/chris/leetcode/MaxArea_11.java)
-- [15. 三数之和 (3Sum)](src/main/java/org/chris/leetcode/ThreeSum_15.java)
-- [41. 缺失的第一个正数 (First Missing Positive)](src/main/java/org/chris/leetcode/FirstMissingPositive_41.java)
-- [48. 旋转图像 (Rotate Image)](src/main/java/org/chris/leetcode/RotatePic_48.java)
-- [56. 合并区间 (Merge Intervals)](src/main/java/org/chris/leetcode/MergeIntervals_56.java)
-- [73. 矩阵置零 (Set Matrix Zeroes)](src/main/java/org/chris/leetcode/SetZeroes_73.java)
-- [75. 颜色分类 (Sort Colors)](src/main/java/org/chris/leetcode/SortColors_75.java)
-- [238. 除自身以外数组的乘积 (Product of Array Except Self)](src/main/java/org/chris/leetcode/ProductExceptSelf_238.java)
-- [240. 搜索二维矩阵 II (Search a 2D Matrix II)](src/main/java/org/chris/leetcode/SearchMatrix_240.java)
-- [283. 移动零 (Move Zeroes)](src/main/java/org/chris/leetcode/MoveZeroes_283.java)
-- [438. 找到字符串中所有字母异位词 (Find All Anagrams in a String)](src/main/java/org/chris/leetcode/FindAnagrams_438.java)
-- [524. 通过删除字母匹配到字典里最长单词 (Find Longest Word)](src/main/java/org/chris/leetcode/FindLongestWord_524.java)
-- [560. 和为 K 的子数组 (Subarray Sum Equals K)](src/main/java/org/chris/leetcode/SubarraySum_560.java)
+### 树 (`org.chris.leetcode.tree`)
+- BuildTree_105 (从前序与中序遍历序列构造二叉树)
+- SymmetricTree_101 (对称二叉树)
+- InorderTraversal_94 (二叉树中序遍历)
+- InvertTree_226 (翻转二叉树)
+- IsValidBST_98 (验证二叉搜索树)
+- MaxDepth_104 (二叉树的最大深度)
+- DiameterOfBinaryTree_543 (二叉树的直径)
+- KthSmallest_230 (二叉搜索树中第K小的数)
+- LevelOrder_100 (二叉树的层序遍历)
+- PathSum_437 (路径总和 III)
+- 等更多...
 
-### Linked List
-- [2. 两数相加 (Add Two Numbers)](src/main/java/org/chris/leetcode/AddTwoNumbers_2.java)
-- [21. 合并两个有序链表 (Merge Two Sorted Lists)](src/main/java/org/chris/leetcode/MergeTwoLists_21.java)
-- [24. 两两交换链表中的节点 (Swap Nodes in Pairs)](src/main/java/org/chris/leetcode/SwapPairs_24.java)
-- [25. K 个一组翻转链表 (Reverse Nodes in k-Group)](src/main/java/org/chris/leetcode/ReverseKGroup_25.java)
-- [141. 环形链表 (Linked List Cycle)](src/main/java/org/chris/leetcode/HasCycle_141.java)
-- [142. 环形链表 II (Linked List Cycle II)](src/main/java/org/chris/leetcode/DetectCycle_142.java)
-- [147. 对链表进行插入排序 (Insertion Sort List)](src/main/java/org/chris/leetcode/InsertionSortList_147.java)
-- [148. 排序链表 (Sort List)](src/main/java/org/chris/leetcode/SortList_148.java)
-- [160. 相交链表 (Intersection of Two Linked Lists)](src/main/java/org/chris/leetcode/GetIntersectionNode_160.java)
-- [206. 反转链表 (Reverse Linked List)](src/main/java/org/chris/leetcode/ReverseList_206.java)
-- [234. 回文链表 (Palindrome Linked List)](src/main/java/org/chris/leetcode/IsPalindrome_234.java)
+### 链表 (`org.chris.leetcode.linkedlist`)
+- AddTwoNumbers_2 (两数相加)
+- CopyRandomList_138 (复制带随机指针的链表)
+- DetectCycle_142 (环形链表 II)
+- GetIntersectionNode_160 (相交链表)
+- HasCycle_141 (环形链表)
+- MergeTwoLists_21 (合并两个有序链表)
+- ReverseList_206 (反转链表)
+- SortList_148 (排序链表)
+- 等更多...
 
-### Tree
-- [94. 二叉树的中序遍历 (Binary Tree Inorder Traversal)](src/main/java/org/chris/leetcode/InorderTraversal_94.java)
-- [98. 验证二叉搜索树 (Validate Binary Search Tree)](src/main/java/org/chris/leetcode/IsValidBST_98.java)
-- [100. 相同的树 (Same Tree)](src/main/java/org/chris/leetcode/LevelOrder_100.java)
-- [101. 对称二叉树 (Symmetric Tree)](src/main/java/org/chris/leetcode/SymmetricTree_101.java)
-- [104. 二叉树的最大深度 (Maximum Depth of Binary Tree)](src/main/java/org/chris/leetcode/MaxDepth_104.java)
-- [108. 将有序数组转换为二叉搜索树 (Convert Sorted Array to Binary Search Tree)](src/main/java/org/chris/leetcode/SortedArrayToBST_108.java)
-- [144. 二叉树的前序遍历 (Binary Tree Preorder Traversal)](src/main/java/org/chris/leetcode/PreorderTraversal_144.java)
-- [145. 二叉树的后序遍历 (Binary Tree Postorder Traversal)](src/main/java/org/chris/leetcode/PostorderTraversal_145.java)
-- [199. 二叉树的右视图 (Binary Tree Right Side View)](src/main/java/org/chris/leetcode/RightSideView_199.java)
-- [226. 翻转二叉树 (Invert Binary Tree)](src/main/java/org/chris/leetcode/InvertTree_226.java)
-- [230. 二叉搜索树中第K小的元素 (Kth Smallest Element in a BST)](src/main/java/org/chris/leetcode/KthSmallest_230.java)
-- [543. 二叉树的直径 (Diameter of Binary Tree)](src/main/java/org/chris/leetcode/DiameterOfBinaryTree_543.java)
+### 动态规划 (`org.chris.leetcode.dp`)
+- CoinChange_322 (零钱兑换)
+- CoinChange_518 (零钱兑换 II)
+- CombinationSum4_377 (组合总和 IV)
+- Fib_509 (斐波那契数)
+- NumSquares_279 (完全平方数)
+- MaxSubArray_53 (最大子数组和)
+- LengthOfLIS_300 (最长递增子序列)
+- 等更多...
 
-### Dynamic Programming
-- [53. 最大子数组和 (Maximum Subarray)](src/main/java/org/chris/leetcode/MaxSubArray_53.java)
+### 图 (`org.chris.leetcode.graph`)
+- CloneGraph_133 (克隆图)
+- NumIslands_200 (岛屿数量)
 
-### Sorting & Searching
-- [912. 排序数组 (Sort Array)](src/main/java/org/chris/leetcode/Collection/SortArrayTemplate_912.java)
+以及更多按照常见 LeetCode 问题分类的类别，如"LeetCode Hot 100"列表中的问题。
 
-### Matrix
-- [54. 螺旋矩阵 (Spiral Matrix)](src/main/java/org/chris/leetcode/SpiralOrder_54.java)
+## 关于本项目
 
-### Array Problems
-- [239. 滑动窗口最大值 (Sliding Window Maximum)](src/main/java/org/chris/leetcode/MaxSlidingWindow_239.java)
-- [189. 轮转数组 (Rotate Array)](src/main/java/org/chris/leetcode/RotateArr_189.java)
+这个项目是用 Java 实现的 LeetCode 问题解答集合。每个文件对应一个特定的问题，包含：
+- 问题陈述作为注释
+- 适用时提供多种解决方案
+- 时间和空间复杂度分析
+- 解释算法的详细注释
 
-### Heap & Priority Queue
-- [23. 合并K个升序链表 (Merge k Sorted Lists)](src/main/java/org/chris/leetcode/MergeKLists_23.java)
+## 模板和常见模式
 
-### Advanced Topics
-- [138. 复制带随机指针的链表 (Copy List with Random Pointer)](src/main/java/org/chris/leetcode/CopyRandomList_138.java)
-- [1094. 拼车 (Car Pooling)](src/main/java/org/chris/leetcode/CarPooling_1094.java)
-- [1109. 航班预订统计 (Corporate Flight Bookings)](src/main/java/org/chris/leetcode/CorpFlightBookings_1109.java)
+`Collection/` 目录包含常见算法模式的模板实现：
+- 树遍历模板
+- 排序算法模板
+- 背包问题模板
+- 测试数据生成工具
 
-## Templates & Common Patterns
+## 数据结构
 
-The `Collection/` directory contains template implementations for common algorithmic patterns:
-- Tree traversal templates
-- Sorting algorithm templates
-- Test data generation utilities
+`dto/` 目录包含常见的数据结构定义：
+- ListNode 用于链表问题
+- TreeNode 用于二叉树问题
+- Node 用于带有随机指针的问题
+- 各种问题的测试数据生成工具
 
-## Data Structures
+## 如何使用
 
-The `dto/` directory contains common data structure definitions:
-- ListNode for linked list problems
-- TreeNode for binary tree problems
-- Node for problems with random pointers
-- Test data generation utilities for various problems
-
-## How to Use
-
-1. Clone the repository:
+1. 克隆仓库：
    ```bash
    git clone <repository-url>
    ```
 
-2. Navigate to the project directory:
+2. 导航到项目目录：
    ```bash
    cd chris-leetcode
    ```
 
-3. Compile and run a specific solution:
+3. 编译和运行特定解法：
    ```bash
-   javac src/main/java/org/chris/leetcode/ProblemClass.java
-   java -cp src/main/java org.chris.leetcode.ProblemClass
+   javac src/main/java/org/chris/leetcode/[category]/ProblemClass.java
+   java -cp src/main/java org.chris.leetcode.[category].ProblemClass
    ```
 
-## Contributing
+## 贡献
 
-Feel free to fork this repository and contribute by adding more LeetCode solutions or improving existing ones.
+欢迎 fork 这个仓库并通过添加更多 LeetCode 解答或改进现有解答来贡献代码。
 
-## License
+## 许可证
 
-This project is open source and available under the [MIT License](LICENSE).
+本项目开源并在 [MIT 许可证](LICENSE) 下提供。

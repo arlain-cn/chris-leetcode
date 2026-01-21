@@ -64,4 +64,4 @@ javac org/chris/leetcode/Collection/*.java
 
 ## 约定
 - 回复全部用中文
-- 测试案例相关的代码全部放到目录：org.chris.leetcode
+- 测试案例相关的代码全部放到目录：src/test/java/org/chris/leetcode/

@@ -2,6 +2,7 @@ package org.chris.leetcode;
 
 import org.chris.leetcode.dto.GetIntersectionNode_160_TestData;
 import org.chris.leetcode.dto.ListNode;
+import org.chris.leetcode.linkedlist.GetIntersectionNode_160;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

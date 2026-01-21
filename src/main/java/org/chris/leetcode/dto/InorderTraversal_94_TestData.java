@@ -1,6 +1,7 @@
 package org.chris.leetcode.dto;
 
-import org.chris.leetcode.LevelOrder_100;
+
+import org.chris.leetcode.tree.LevelOrder_100;
 
 import java.util.List;
 
