@@ -1,7 +1,7 @@
 package org.chris.leetcode.tree;
 
-import org.chris.leetcode.dto.TreeConstructUtils;
-import org.chris.leetcode.dto.TreeNode;
+import org.chris.leetcode._dto.TreeConstructUtils;
+import org.chris.leetcode._dto.TreeNode;
 
 import java.util.HashMap;
 import java.util.HashSet;

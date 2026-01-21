@@ -1,7 +1,7 @@
 package org.chris.leetcode.linkedlist;
 
-import org.chris.leetcode.dto.CopyRandomList_138TestData;
-import org.chris.leetcode.dto.Node;
+import org.chris.leetcode._dto.CopyRandomList_138TestData;
+import org.chris.leetcode._dto.Node;
 
 import java.util.HashMap;
 import java.util.Map;

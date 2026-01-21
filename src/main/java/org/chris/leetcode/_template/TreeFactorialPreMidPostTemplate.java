@@ -1,7 +1,7 @@
-package org.chris.leetcode.Collection;
+package org.chris.leetcode._template;
 
-import org.chris.leetcode.dto.InorderTraversal_94_TestData;
-import org.chris.leetcode.dto.TreeNode;
+import org.chris.leetcode._dto.InorderTraversal_94_TestData;
+import org.chris.leetcode._dto.TreeNode;
 
 import java.util.*;
 

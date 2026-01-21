@@ -1,6 +1,6 @@
 package org.chris.leetcode;
 
-import org.chris.leetcode.Collection.PackageTemplate;
+import org.chris.leetcode._template.PackageTemplate;
 
 public class TestMixedPackFixed {
     public static void main(String[] args) {

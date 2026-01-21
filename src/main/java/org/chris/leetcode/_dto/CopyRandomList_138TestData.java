@@ -1,4 +1,4 @@
-package org.chris.leetcode.dto;
+package org.chris.leetcode._dto;
 
 import java.util.HashMap;
 import java.util.Map;

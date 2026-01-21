@@ -1,7 +1,7 @@
 package org.chris.leetcode;
 
-import org.chris.leetcode.dto.InorderTraversal_94_TestData;
-import org.chris.leetcode.dto.TreeNode;
+import org.chris.leetcode._dto.InorderTraversal_94_TestData;
+import org.chris.leetcode._dto.TreeNode;
 import org.chris.leetcode.tree.InorderTraversal_94;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

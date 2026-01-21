@@ -1,4 +1,4 @@
-package org.chris.leetcode.Collection;
+package org.chris.leetcode._template;
 
 import java.util.*;
 

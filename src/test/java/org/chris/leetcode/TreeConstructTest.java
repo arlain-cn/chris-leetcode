@@ -1,7 +1,7 @@
 package org.chris.leetcode;
 
-import org.chris.leetcode.dto.TreeConstructUtils;
-import org.chris.leetcode.dto.TreeNode;
+import org.chris.leetcode._dto.TreeConstructUtils;
+import org.chris.leetcode._dto.TreeNode;
 
 public class TreeConstructTest {
     public static void main(String[] args) {

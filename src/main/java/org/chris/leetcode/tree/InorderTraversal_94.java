@@ -1,8 +1,8 @@
 package org.chris.leetcode.tree;
 
 
-import org.chris.leetcode.dto.InorderTraversal_94_TestData;
-import org.chris.leetcode.dto.TreeNode;
+import org.chris.leetcode._dto.InorderTraversal_94_TestData;
+import org.chris.leetcode._dto.TreeNode;
 
 import java.util.*;
 

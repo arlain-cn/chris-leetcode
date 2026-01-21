@@ -1,4 +1,4 @@
-package org.chris.leetcode.dto;
+package org.chris.leetcode._dto;
 
 public class SymmetricTree_101_TestData {
 

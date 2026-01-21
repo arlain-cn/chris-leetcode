@@ -1,4 +1,4 @@
-package org.chris.leetcode.dto;
+package org.chris.leetcode._dto;
 
 
 import org.chris.leetcode.tree.LevelOrder_100;

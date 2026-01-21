@@ -8,7 +8,7 @@
 
 ## 架构与结构
 
-- **包组织**：问题组织在 `org.chris.leetcode` 下，可重用模板在 `org.chris.leetcode.Collection`
+- **包组织**：问题组织在 `org.chris.leetcode` 下，可重用模板在 `org.chris.leetcode._template`
 - **命名约定**：类名为 `{问题名称}_{问题编号}.java`（例如 `MaxSlidingWindow_239.java`）
 - **解决方案模式**：许多类包含多种解决方法，并附有详细中文注释解释方法
 - **模板类**：`PackageTemplate.java` 包含 0-1 背包、完全背包和多重背包问题的可重用算法模板

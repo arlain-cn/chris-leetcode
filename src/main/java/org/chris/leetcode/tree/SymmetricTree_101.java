@@ -1,6 +1,6 @@
 package org.chris.leetcode.tree;
 
-import org.chris.leetcode.dto.TreeNode;
+import org.chris.leetcode._dto.TreeNode;
 
 public class SymmetricTree_101 {
 

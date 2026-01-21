@@ -1,7 +1,7 @@
 package org.chris.leetcode.linkedlist;
 
-import org.chris.leetcode.dto.GetIntersectionNode_160_TestData;
-import org.chris.leetcode.dto.ListNode;
+import org.chris.leetcode._dto.GetIntersectionNode_160_TestData;
+import org.chris.leetcode._dto.ListNode;
 
 import java.util.Deque;
 import java.util.LinkedList;

@@ -1,11 +1,10 @@
 package org.chris.leetcode.tree;
 
-import org.chris.leetcode.dto.SymmetricTree_101_TestData;
-import org.chris.leetcode.dto.TreeNode;
+import org.chris.leetcode._dto.SymmetricTree_101_TestData;
+import org.chris.leetcode._dto.TreeNode;
 
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.Queue;
 
 public class IsSymmetric_101a {
 

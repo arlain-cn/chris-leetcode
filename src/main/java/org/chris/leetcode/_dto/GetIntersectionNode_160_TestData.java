@@ -1,4 +1,4 @@
-package org.chris.leetcode.dto;
+package org.chris.leetcode._dto;
 
 /**
  * 相交链表测试数据构造器
