@@ -344,9 +344,9 @@ public class PackageTemplate {
      * 多重背包问题 - 思路 2：动态规划 + 滚动数组优化
      * 多重背包问题的滚动数组优化
      * 在「完全背包问题」中，我们通过优化「状态转移方程」的方式，成功去除了对物品件数 k 的依赖，从而将时间复杂度下降了一个维度。
-     *
+     * <p>
      * 而在「多重背包问题」中，我们在递推 dp[i][w] 时，是无法从 dp[i][w−weight[i−1]] 状态得知目前究竟已经使用了多个件第 i−1 种物品，也就无法判断第 i−1 种物品是否还有剩余数量可选。**这就导致了我们无法通过优化「状态转移方程」的方式将「多重背包问题」的时间复杂度降低。但是我们可以参考「完全背包问题」+「滚动数组优化」的方式，将算法的空间复杂度下降一个维度。**
-     *
+     * <p>
      * 思路 2：动态规划 + 滚动数组优化
      * 1. 阶段划分
      * 按照当前背包的载重上限进行阶段划分。
@@ -358,14 +358,14 @@ public class PackageTemplate {
      * 无论背包载重上限为多少，只要不选择物品，可以获得的最大价值一定是 0，即 dp[w]=0,0≤w≤W。
      * 5. 最终结果
      * 根据我们之前定义的状态，dp[w] 表示为：将物品装入最多能装重量为 w 的背包中，可以获得的最大价值。则最终结果为 dp[W]，其中 W 为背包的载重上限。
-     *
+     * <p>
      * 时间复杂度：O(n×W×C)，其中 n 为物品种类数量，W 为背包的载重上限，C 是物品的数量数组长度。因为 n×C=∑count[i]，所以时间复杂度也可以写成 O(W×∑count[i])。
      * 空间复杂度：O(W)。
      *
      * @param weight int[]，每件物品的重量
-     * @param value int[]，每件物品的价值
-     * @param count int[]，每件物品的数量
-     * @param W int，背包最大承重
+     * @param value  int[]，每件物品的价值
+     * @param count  int[]，每件物品的数量
+     * @param W      int，背包最大承重
      * @return int，最大可获得价值
      */
     public int multiplePackMethod2(int[] weight, int[] value, int[] count, int W) {
@@ -393,6 +393,7 @@ public class PackageTemplate {
 
 
     // 思路 3：动态规划 + 二进制优化
+
     /**
      * 多重背包问题 - 二进制优化解法
      * 将多重背包分解为 0-1 背包
@@ -406,14 +407,14 @@ public class PackageTemplate {
      * 无论背包载重上限为多少，只要不选择物品，可以获得的最大价值一定是 0，即 dp[w]=0,0≤w≤W。
      * 5. 最终结果
      * 根据我们之前定义的状态，dp[w] 表示为：将物品装入最多能装重量为 w 的背包中，可以获得的最大价值。则最终结果为 dp[W]，其中 W 为背包的载重上限。
-     *
+     * <p>
      * 时间复杂度：O(W×∑log2count[i])，其中 W 为背包的载重上限，count[i] 是第 i 种物品的数量。
      * 空间复杂度：O(W)。
      *
      * @param weight int[]，每件物品的重量
-     * @param value int[]，每件物品的价值
-     * @param count int[]，每件物品的数量
-     * @param W int，背包最大承重
+     * @param value  int[]，每件物品的价值
+     * @param count  int[]，每件物品的数量
+     * @param W      int，背包最大承重
      * @return int，最大可获得价值
      */
     public int multiplePackMethod3(int[] weight, int[] value, int[] count, int W) {
@@ -516,6 +517,110 @@ public class PackageTemplate {
                 // 完全背包问题：正序枚举背包装载重量
                 for (int w = wVal; w <= W; w++) {
                     dp[w] = Math.max(dp[w], dp[w - wVal] + vVal);
+                }
+            }
+        }
+        return dp[W];
+    }
+
+    // 思路 1：动态规划 + 二维基本思路
+
+    /**
+     * 分组背包问题 - ç
+     * 思路 1：动态规划 + 二维基本思路
+     * 1. 阶段划分
+     * 按照物品种类的序号、当前背包的载重上限进行阶段划分。
+     * 2. 定义状态
+     * 定义状态 `dp[i][w]` 表示为：前 i 组物品放入一个最多能装重量为 w 的背包中，可以获得的最大价值。
+     * 状态 `dp[i][w]` 是一个二维数组，其中第一维代表「当前正在考虑的物品组数」，第二维表示「当前背包的载重上限」，二维数组值表示「可以获得的最大价值」。
+     * 3. 状态转移方程
+     * 由于我们可以不选择 i−1 组物品中的任何物品，也可以从第 i−1 组物品的第 `0∼group_count[i−1]−1` 件物品中随意选择 1 件物品，所以状态 `dp[i][w]` 可能从以下方案中选择最大值：
+     * 不选择第 i−1 组中的任何物品：可以获得的最大价值为 `dp[i−1][w]`。
+     * 选择第i−1 组物品中第 0 件：可以获得的最大价值为 `dp[i−1][w−weight[i−1][0]]+value[i−1][0]`。
+     * 选择第 i−1 组物品中第 1 件：可以获得的最大价值为 `dp[i−1][w−weight[i−1][1]]+value[i−1][1]`。
+     * ……
+     * 选择第 i−1 组物品中最后 1 件：假设 k=group_count[i−1]−1，则可以获得的最大价值为 `dp[i−1][w−weight[i−1][k]]+value[i−1][k]`。
+     * 则状态转移方程为：`dp[i][w]=max{dp[i−1][w],dp[i−1][w−weight[i−1][k]]+value[i−1][k]},         0≤k≤group_count[i−1]`
+     * 4. 初始条件
+     * 如果背包载重上限为 0，则无论选取什么物品，可以获得的最大价值一定是 0，即 `dp[i][0]=0,0≤i≤size`。
+     * 无论背包载重上限是多少，前 0 组物品所能获得的最大价值一定为 0，即 `dp[0][w]=0,0≤w≤W`。
+     * 5. 最终结果
+     * 根据我们之前定义的状态，`dp[i][w]` 表示为：前 i 组物品放入一个最多能装重量为 w 的背包中，可以获得的最大价值。则最终结果为 `dp[size][W]`，其中 size 为物品的种类数，W 为背包的载重上限。
+     * <p>
+     * 时间复杂度：O(n×W×C)，其中 n 为物品分组数量，W 为背包的载重上限，C 是每组物品的数量。因为 n×C=∑group_count[i]，所以时间复杂度也可以写成 O(W×∑group_count[i])。
+     * 空间复杂度：O(n×W)。
+     *
+     * @param groupCount int[]，每组物品的个数
+     * @param weight     int[][]，每组物品的重量，weight[i][k] 表示第 i 组第 k 个物品的重量
+     * @param value      int[][]，每组物品的价值，value[i][k] 表示第 i 组第 k 个物品的价值
+     * @param W          int，背包最大承重
+     * @return int，最大可获得价值
+     */
+    public int groupPackMethod1(int[] groupCount, int[][] weight, int[][] value, int W) {
+        int size = groupCount.length;
+        // dp[i][w] 表示前 i 组物品，容量不超过 W 时的最大价值
+        int[][] dp = new int[size + 1][W + 1];
+
+        // 枚举前 i 组物品
+        for (int i = 1; i <= size; i++) {
+            // 枚举背包装载重量
+            for (int w = 0; w <= W; w++) {
+                // 枚举第 i - 1 组物品能取个数
+                for (int k = 0; k < groupCount[i - 1]; k++) {
+                    if (w >= weight[i - 1][k]) {
+                        // dp[i][w] 取所有 dp[i - 1][w - weight[i - 1][k]] + value[i - 1][k] 中最大值
+                        dp[i][w] = Math.max(dp[i][w], dp[i - 1][w - weight[i - 1][k]] + value[i - 1][k]);
+                    } else {
+                        //TODO 不选当前组任何物品的情况,这一步的代码是需要保留的，这是一个二维数组
+                        // （还没有进行二维数组优化，dp[w]初始值还不是上一个i时的结果，是0）
+                        dp[i][w] = dp[i - 1][w];
+                    }
+                }
+            }
+        }
+        return dp[size][W];
+    }
+
+    // 思路 2：动态规划 + 滚动数组优化
+
+    /**
+     * 分组背包问题 - 滚动数组优化解法
+     * 1. 阶段划分
+     * 按照当前背包的载重上限进行阶段划分。
+     * 2. 定义状态
+     * 定义状态 dp[w] 表示为：将物品装入最多能装重量为 w 的背包中，可以获得的最大价值。
+     * 3. 状态转移方程
+     * dp[w]=max{dp[w],dp[w−weight[i−1][k]]+value[i−1][k]},0≤k≤group_count[i−1]
+     * 4. 初始条件
+     * 无论背包载重上限为多少，只要不选择物品，可以获得的最大价值一定是 0，即 dp[w]=0,0≤w≤W。
+     * 5. 最终结果
+     * 根据我们之前定义的状态， dp[w] 表示为：将物品装入最多能装重量为 w 的背包中，可以获得的最大价值。则最终结果为 dp[W]，其中 W 为背包的载重上限。
+     * <p>
+     * 时间复杂度：O(n×W×C)，其中 n 为物品分组数量，W 为背包的载重上限，C 是每组物品的数量。因为 n×C=∑group_count[i]，所以时间复杂度也可以写成 O(W×∑group_count[i])。
+     * 空间复杂度：O(W)。
+     *
+     * @param groupCount int[]，每组物品的个数
+     * @param weight     int[][]，每组物品的重量，weight[i][k] 表示第 i 组第 k 个物品的重量
+     * @param value      int[][]，每组物品的价值，value[i][k] 表示第 i 组第 k 个物品的价值
+     * @param W          int，背包最大承重
+     * @return int，最大可获得价值
+     */
+    public int groupPackMethod21(int[] groupCount, int[][] weight, int[][] value, int W) {
+        int size = groupCount.length;
+        // dp[w] 表示容量为 w 时背包可获得的最大价值
+        int[] dp = new int[W + 1];
+
+        // 枚举前 i 组物品
+        for (int i = 1; i <= size; i++) {
+            // 逆序枚举背包装载重量
+            //确保在更新 dp[w] 时，使用的 dp[w - weight[i-1][k]] 是上一阶段的值，避免了状态覆盖问题
+            for (int w = W; w >= 0; w--) {
+                // 枚举第 i - 1 组物品能取个数
+                for (int k = 0; k < groupCount[i - 1]; k++) {
+                    if (w >= weight[i - 1][k]) {
+                        // dp[w] 取所有 dp[w - weight[i - 1][k]] + value[i - 1][k] 中最大值
+                        dp[w] = Math.max(dp[w], dp[w - weight[i - 1][k]] + value[i - 1][k]);
+                    }
                 }
             }
         }
