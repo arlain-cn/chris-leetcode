@@ -63,8 +63,7 @@ public class PackageTemplate {
                     dp[i][w] = dp[i - 1][w];
                 } else {
                     // 当前物品可选，取放与不放的最大值
-                    dp[i][w] = Math.max(
-                            dp[i - 1][w], // 不放当前物品
+                    dp[i][w] = Math.max(dp[i - 1][w], // 不放当前物品
                             dp[i - 1][w - weight[i - 1]] + value[i - 1] // 放当前物品
                     );
                 }
@@ -235,10 +234,7 @@ public class PackageTemplate {
                     // 可以装下，取最大值
                     // 注意第二个参数是 dp[i][...] 而不是 dp[i-1][...]
                     // 这代表我们可以基于"当前物品已经选过"的状态再次选择当前物品
-                    dp[i][w] = Math.max(
-                            dp[i - 1][w],
-                            dp[i][w - weight[i - 1]] + value[i - 1]
-                    );
+                    dp[i][w] = Math.max(dp[i - 1][w], dp[i][w - weight[i - 1]] + value[i - 1]);
                 }
             }
         }
@@ -718,9 +714,7 @@ public class PackageTemplate {
                         dp[i][w][v] = dp[i - 1][w][v];
                     } else {
                         // dp[i][w][v] 取所有 dp[w - weight[i - 1]][v - volume[i - 1]] + value[i - 1] 中最大值
-                        dp[i][w][v] = Math.max(
-                                dp[i - 1][w][v],
-                                dp[i - 1][w - weight[i - 1]][v - volume[i - 1]] + value[i - 1]);
+                        dp[i][w][v] = Math.max(dp[i - 1][w][v], dp[i - 1][w - weight[i - 1]][v - volume[i - 1]] + value[i - 1]);
                     }
                 }
             }
@@ -772,5 +766,53 @@ public class PackageTemplate {
         }
 
         return dp[W][V];
+    }
+
+
+    /**
+     * 0-1 背包问题 - 求恰好装满背包的最大价值
+     * 0-1 背包问题求恰好装满背包的最大价值：有 n 种物品和一个最多能装重量为 W 的背包，第 i 种物品的重量为 weight[i]，价值为 value[i]，每件物品有且只有 1 件。请问在恰好装满背包的情况下，能装入背包的最大价值总和是多少？
+     * <p>
+     * 思路 1：动态规划 + 一维状态
+     * 1. 阶段划分：按照当前背包的载重上限进行阶段划分。
+     * 2. 定义状态：定义状态 dp[w] 表示为：将物品装入一个最多能装重量为 w 的背包中，恰好装满背包的情况下，能装入背包的最大价值总和。
+     * 3. 状态转移方程：dp[w]=dp[w]+dp[w−weight[i−1]]
+     * 4. 初始条件：
+     * 只有载重上限为 0 的背包，在不放入物品时，能够恰好装满背包（有合法解），此时背包所含物品的最大价值为 0，即 dp[0]=0。
+     * 其他载重上限下的背包，在放入物品的时，都不能恰好装满背包（都没有合法解），此时背包所含物品的最大价值属于未定义状态，值应为 −∞，即 dp[w]=0,0≤w≤W。
+     * 5. 最终结果：根据我们之前定义的状态， dp[w] 表示为：将物品装入最多能装重量为 w 的背包中的方案总数。则最终结果为 dp[W]，其中 W 为背包的载重上限。
+     *
+     * @param weight int[]，每件物品的重量
+     * @param value  int[]，每件物品的价值
+     * @param W      int，背包最大承重
+     * @return int，最大可获得价值，若无法恰好装满则返回 -1
+     */
+    public int zeroOnePackJustFillUp(int[] weight, int[] value, int W) {
+        int size = weight.length;
+        // dp[w] 表示恰好装满容量为 w 的背包时的最大价值
+        // 初始化为 Integer.MIN_VALUE 表示不可达（负无穷）
+        int[] dp = new int[W + 1];
+        for (int i = 1; i <= W; i++) {
+            dp[i] = Integer.MIN_VALUE;
+        }
+        // 恰好装满容量为 0 的背包，价值为 0
+        dp[0] = 0;
+
+        // 枚举前 i 种物品
+        for (int i = 1; i <= size; i++) {
+            // 逆序枚举背包装载重量（避免状态值错误）
+            for (int w = W; w >= weight[i - 1]; w--) {
+                // dp[w] 取「前 i - 1 件物品装入载重为 w 的背包中的最大价值」
+                // 与「前 i - 1 件物品装入载重为 w - weight[i - 1] 的背包中，再装入第 i - 1 物品所得的最大价值」两者中的最大值
+                // 注意：只有当 prev (即 dp[w - weight[i-1]]) 为有效状态时，才能进行转移
+                if (dp[w - weight[i - 1]] != Integer.MIN_VALUE) {
+                    dp[w] = Math.max(dp[w], dp[w - weight[i - 1]] + value[i - 1]);
+                }
+            }
+        }
+        if (dp[W] == Integer.MIN_VALUE) {
+            return -1;
+        }
+        return dp[W];
     }
 }
