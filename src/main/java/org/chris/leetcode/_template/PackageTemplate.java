@@ -815,4 +815,194 @@ public class PackageTemplate {
         }
         return dp[W];
     }
+
+    /**
+     * 0-1 背包问题 - 求方案总数
+     * 阶段划分：按照物品种类的序号、当前背包的载重上限进行阶段划分。
+     * 定义状态：定义状态 dp[w] 表示为：将物品装入一个最多能装重量为 w 的背包中的方案总数。
+     * 状态转移方程：`dp[w]=dp[w]+dp[w−weight[i−1]]`
+     * 初始条件：如果背包载重上限为 0，则一共有1 种方案（什么也不装），即 dp[0]=1。
+     * 最终结果：根据我们之前定义的状态，dp[w] 表示为：将物品装入最多能装重量为 w 的背包中的方案总数。则最终结果为 dp[W]，其中 W 为背包的载重上限。
+     *
+     * @param weight int[]，每件物品的重量
+     * @param value  int[]，每件物品的价值 (此题中未使用，仅为保持接口一致)
+     * @param W      int，背包最大承重
+     * @return int，方案总数
+     */
+    public int zeroOnePackNumbers(int[] weight, int[] value, int W) {
+        int size = weight.length;
+        // dp[w] 表示装入载重为 w 的背包中的方案数
+        int[] dp = new int[W + 1];
+        // TODO 初始化：容量为 0 的背包，只有一种方案（什么都不装）
+        dp[0] = 1;
+        // 枚举前 i 种物品
+        for (int i = 1; i <= size; i++) {
+            // 逆序枚举背包装载重量
+            for (int w = W; w >= weight[i - 1]; w--) {
+                // dp[w] = 前 i - 1 件物品装入载重为 w 的背包中的方案数
+                //       + 前 i 件物品装入载重为 w - weight[i - 1] 的背包中，再装入第 i - 1 件物品的方案数
+                dp[w] = dp[w] + dp[w - weight[i - 1]];
+            }
+        }
+
+        return dp[W];
+    }
+
+
+    /**
+     * 掷骰子等于目标和的方法数 - 动态规划 + 滚动数组优化
+     * 我们可以将这道题转换为「分组背包问题」中求方案总数的问题。将每个骰子看做是一组物品，骰子每一个面上的数值当做是每组物品中的一个物品。这样问题就转换为：用 n 个骰子（n 组物品）进行投掷，投掷出总和（总价值）为 target 的方案数。
+     * <p>
+     * 1. 阶段划分
+     * 按照总价值target 进行阶段划分。
+     * <p>
+     * 2. 定义状态
+     * 定义状态 `dp[w]` 表示为：用 n 个骰子（n 组物品）进行投掷，投掷出总和（总价值）为 w 的方案数。
+     * <p>
+     * 3. 状态转移方程
+     * 用 n 个骰子（n 组物品）进行投掷，投掷出总和（总价值）为 w 的方案数，等于用 n 个骰子（n 组物品）进行投掷，投掷出总和（总价值）为 `w−d` 的方案数累积值，其中 d 为当前骰子掷出的价值，即：`dp[w]=dp[w]+dp[w−d]`。
+     * <p>
+     * 4. 初始条件
+     * 用 n 个骰子（n 组物品）进行投掷，投掷出总和（总价值）为 0 的方案数为 1。
+     * 5. 最终结果
+     * 根据我们之前定义的状态，dp[w] 表示为：用 n 个骰子（n 组物品）进行投掷，投掷出总和（总价值）为 w 的方案数。则最终结果为 `dp[target]`。
+     *
+     * @param n      int，骰子数量
+     * @param k      int，每个骰子的面数（1~k）
+     * @param target int，目标和
+     * @return int，方案数（对 10^9 + 7 取模）
+     */
+    public int numRollsToTarget(int n, int k, int target) {
+        int[] dp = new int[target + 1];
+        dp[0] = 1;
+        int MOD = 1000000007;
+
+        // 枚举前 i 组物品（即前 i 个骰子）
+        for (int i = 1; i <= n; i++) {
+            // 逆序枚举背包装载重量（即当前目标和）
+            for (int w = target; w >= 0; w--) {
+                //但是在 掷骰子问题 （或分组背包的某些变体）中，逻辑完全不同：
+                //- 我们必须投第 i 个骰子。
+                //- 第 i 轮的状态 dp[w] （ i 个骰子和为 w ）完全是由上一轮 i-1 个骰子的状态（ dp[w-1], dp[w-2]... ）加上当前骰子的点数推导出来的。
+                //- 旧的 dp[w] 代表的是 i-1 个骰子和为 w 的方案数 。这对于计算 i 个骰子和为 w 是没有直接累加意义的（你不能说“我不投第 i 个骰子，直接沿用 i-1 个骰子的结果”）。
+                dp[w] = 0; // 清空当前状态，准备计算新一轮（i个骰子）的值
+                // 枚举第 i - 1 组物品能取个数（即当前骰子投出的点数）
+                for (int d = 1; d <= k; d++) {
+                    if (w >= d) {
+                        dp[w] = (dp[w] + dp[w - d]) % MOD;
+                    }
+                }
+            }
+        }
+
+        return dp[target];
+    }
+
+    /**
+     * 0-1 背包问题 - 求最优方案数
+     * 思路 1：动态规划 + 二维基本思路
+     * 思路 3：动态规划
+     * 1. 阶段划分：按照物品种类的序号、当前背包的载重上限进行阶段划分。
+     * 2. 定义状态：
+     * - 定义 `dp[i][w]` 表示为：前 i 种物品放入一个最多能装重量为 w 的背包中，可获得的最大价值。
+     * - 定义 `op[i][w]` 表示为：前 i 种物品放入一个最多能装重量为 w 的背包中，使背包总价值最大的方案数。
+     * 3. 状态转移方程：
+     * 如果 `dp[i−1][w]<dp[i−1][w−weight[i−1]]+value[i−1]`，则说明选择第 i−1 件物品获得价值更高，此时方案数 `op[i][w]` 是在 `op[i−1][w−weight[i−1]]` 基础上添加了第 `i−1` 件物品，因此方案数不变，即：`op[i][w]=op[i−1][w−weight[i−1]]`。
+     * 如果 `dp[i−1][w]=dp[i−1][w−weight[i−1]]+value[i−1]`，则说明选择与不选择第 i−1 件物品获得价格相等，此时方案数应为两者之和，即：`op[i][w]=op[i−1][w]+op[i−1][w−weight[i−1]]`。
+     * 如果 `dp[i−1][w]>dp[i−1][w−weight[i−1]]+value[i−1]`，则说明不选择第 i−1 件物品获得价值更高，此时方案数等于之前方案数，即：`op[i][w]=op[i−1][w]`。
+     * 4. 初始条件：如果背包载重上限为 0，则一共有 1 种方案（什么也不装），即 `dp[0]=1`。
+     * 5. 最终结果：根据我们之前定义的状态，`op[i][w]` 表示为：前 i 种物品放入一个最多能装重量为 w 的背包中，使背包总价值最大的方案数。则最终结果为 op[size][W]，其中 size 为物品的种类数，W 为背包的载重上限。
+     *
+     * @param weight int[]，每件物品的重量
+     * @param value  int[]，每件物品的价值
+     * @param W      int，背包最大承重
+     * @return int，最优方案数
+     */
+
+    public int zeroOnePackMaxProfitNumbers1(int[] weight, int[] value, int W) {
+        int size = weight.length;
+        // dp[i][w] 表示前 i 种物品装入载重为 w 的背包中的最大价值
+        int[][] dp = new int[size + 1][W + 1];
+        // op[i][w] 表示前 i 种物品装入载重为 w 的背包中，获得最大价值的方案数
+        int[][] op = new int[size + 1][W + 1];
+
+        for (int i = 0; i <= size; i++) {
+            op[i][0] = 1;
+        }
+        // 初始化 dp 数组的第一行
+        //最严谨、最符合直觉的初始化应该是： 只初始化第 0 行全为 1 。即 op[0][w] = 1 (对于所有 0 <= w <= W )。
+        //这样，后续的 op[i][w] 都会通过状态转移方程正确计算出来，而不需要全部预先设为 1。
+        for (int w = 0; w <= W; w++) {
+            op[0][w] = 1;  // 没有物品时价值为0
+        }
+
+        // 枚举前 i 种物品
+        for (int i = 1; i <= size; i++) {
+            // 枚举背包装载重量
+            for (int w = 0; w <= W; w++) {
+                // 第 i - 1 件物品装不下
+                if (w < weight[i - 1]) {
+                    // dp[i][w] 取「前 i - 1 种物品装入载重为 w 的背包中的最大价值」
+                    dp[i][w] = dp[i - 1][w];
+                    op[i][w] = op[i - 1][w];
+                } else {
+                    // 选择第 i - 1 件物品获得价值更高
+                    if (dp[i - 1][w] < dp[i - 1][w - weight[i - 1]] + value[i - 1]) {
+                        dp[i][w] = dp[i - 1][w - weight[i - 1]] + value[i - 1];
+                        // 在之前方案基础上添加了第 i - 1 件物品，因此方案数量不变
+                        op[i][w] = op[i - 1][w - weight[i - 1]];
+                    }
+                    // 两种方式获得价格相等
+                    else if (dp[i - 1][w] == dp[i - 1][w - weight[i - 1]] + value[i - 1]) {
+                        dp[i][w] = dp[i - 1][w];
+                        // 方案数 = 不使用第 i - 1 件物品的方案数 + 使用第 i - 1 件物品的方案数
+                        op[i][w] = op[i - 1][w] + op[i - 1][w - weight[i - 1]];
+                    }
+                    // 不选择第 i - 1 件物品获得价值最高
+                    else {
+                        dp[i][w] = dp[i - 1][w];
+                        // 不选择第 i - 1 件物品，与之前方案数相等
+                        op[i][w] = op[i - 1][w];
+                    }
+                }
+            }
+        }
+
+        return op[size][W];
+    }
+
+    public int zeroOnePackMaxProfitNumbers12(int[] weight, int[] value, int W) {
+        int size = weight.length;
+        int[][] dp = new int[size + 1][W + 1];
+        int[][] op = new int[size + 1][W + 1];
+
+        for (int i = 0; i <= size; i++) {
+            op[i][0] = 1;
+        }
+
+        // 初始化 dp 数组的第一行
+        for (int w = 0; w <= W; w++) {
+            op[0][w] = 1;  // 没有物品时价值为0
+        }
+        for (int i = 1; i <= size; i++) {
+            for (int w = 0; w <= W; w++) {
+                if (w >= weight[i - 1]) {
+                    if (dp[i - 1][w] < dp[i - 1][w - weight[i - 1]] + value[i - 1]) {
+                        op[i][w] = op[i - 1][w - weight[i - 1]];
+                        dp[i][w] = dp[i - 1][w - weight[i - 1]] + value[i - 1];
+                    } else if (dp[i - 1][w] == dp[i - 1][w - weight[i - 1]] + value[i - 1]) {
+                        op[i][w] = op[i - 1][w] + op[i - 1][w - weight[i - 1]];
+                        dp[i][w] = dp[i - 1][w];
+                    } else {
+                        op[i][w] = op[i - 1][w];
+                        dp[i][w] = dp[i - 1][w];
+                    }
+                } else {
+                    op[i][w] = op[i - 1][w];
+                    dp[i][w] = dp[i - 1][w];
+                }
+            }
+        }
+        return op[size][W];
+    }
 }
