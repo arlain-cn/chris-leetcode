@@ -929,8 +929,8 @@ public class PackageTemplate {
         for (int i = 0; i <= size; i++) {
             op[i][0] = 1;
         }
-        // 初始化 dp 数组的第一行
-        //最严谨、最符合直觉的初始化应该是： 只初始化第 0 行全为 1 。即 op[0][w] = 1 (对于所有 0 <= w <= W )。
+        //初始化 dp 数组的第一行
+        //todo 最严谨、最符合直觉的初始化应该是： 只初始化第 0 行全为 1 。即 op[0][w] = 1 (对于所有 0 <= w <= W )。
         //这样，后续的 op[i][w] 都会通过状态转移方程正确计算出来，而不需要全部预先设为 1。
         for (int w = 0; w <= W; w++) {
             op[0][w] = 1;  // 没有物品时价值为0
@@ -968,41 +968,6 @@ public class PackageTemplate {
             }
         }
 
-        return op[size][W];
-    }
-
-    public int zeroOnePackMaxProfitNumbers12(int[] weight, int[] value, int W) {
-        int size = weight.length;
-        int[][] dp = new int[size + 1][W + 1];
-        int[][] op = new int[size + 1][W + 1];
-
-        for (int i = 0; i <= size; i++) {
-            op[i][0] = 1;
-        }
-
-        // 初始化 dp 数组的第一行
-        for (int w = 0; w <= W; w++) {
-            op[0][w] = 1;  // 没有物品时价值为0
-        }
-        for (int i = 1; i <= size; i++) {
-            for (int w = 0; w <= W; w++) {
-                if (w >= weight[i - 1]) {
-                    if (dp[i - 1][w] < dp[i - 1][w - weight[i - 1]] + value[i - 1]) {
-                        op[i][w] = op[i - 1][w - weight[i - 1]];
-                        dp[i][w] = dp[i - 1][w - weight[i - 1]] + value[i - 1];
-                    } else if (dp[i - 1][w] == dp[i - 1][w - weight[i - 1]] + value[i - 1]) {
-                        op[i][w] = op[i - 1][w] + op[i - 1][w - weight[i - 1]];
-                        dp[i][w] = dp[i - 1][w];
-                    } else {
-                        op[i][w] = op[i - 1][w];
-                        dp[i][w] = dp[i - 1][w];
-                    }
-                } else {
-                    op[i][w] = op[i - 1][w];
-                    dp[i][w] = dp[i - 1][w];
-                }
-            }
-        }
         return op[size][W];
     }
 }
