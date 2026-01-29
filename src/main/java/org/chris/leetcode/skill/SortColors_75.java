@@ -1,4 +1,4 @@
-package org.chris.leetcode.array;
+package org.chris.leetcode.skill;
 
 import java.util.Arrays;
 
